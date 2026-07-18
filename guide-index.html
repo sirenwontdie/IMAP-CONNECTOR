@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMAP Connector - Complete Guide</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .back {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .back:hover { text-decoration: underline; }
+    
+    h1 {
+      font-size: 42px;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    .subtitle {
+      font-size: 20px;
+      color: #666;
+      margin-bottom: 40px;
+    }
+    
+    .part-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      padding: 30px;
+      margin: 25px 0;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    
+    .part-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    }
+    
+    .part-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.3);
+      margin-bottom: 10px;
+    }
+    
+    .part-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 15px;
+    }
+    
+    .part-desc {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .part-time {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 15px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    
+    .part-link {
+      display: block;
+      text-align: center;
+      background: white;
+      color: #667eea;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 16px;
+      margin-top: 20px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .part-link:hover {
+      background: #f8f9fa;
+      transform: scale(1.05);
+    }
+    
+    .highlight {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 6px;
+    }
+    
+    .info-box {
+      background: #e7f3ff;
+      border-left: 4px solid #2196F3;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 6px;
+    }
+    
+    strong {
+      font-weight: 700;
+      color: #333;
+    }
+    
+    ul {
+      margin-left: 25px;
+      margin-top: 10px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+      font-size: 16px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">← Balik ke Tool</a>
+    
+    <h1>📧 IMAP Connector Setup Guide</h1>
+    <p class="subtitle">Complete step-by-step guide untuk setup catch-all email routing</p>
+    
+    <div class="highlight">
+      <strong style="font-size: 18px;">🎯 HASIL AKHIR:</strong>
+      <p style="margin-top: 10px; font-size: 16px;">
+        Semua email ke <code>*@domain-lu.com</code> → masuk ke <strong>1 inbox</strong> (Gmail/Outlook/apapun)
+      </p>
+    </div>
+    
+    <div class="info-box">
+      <strong style="font-size: 18px;">⏱️ TOTAL WAKTU:</strong>
+      <ul>
+        <li><strong>First time setup:</strong> 10-15 menit (Part 1 + 2)</li>
+        <li><strong>Domain tambahan:</strong> 30 detik (Part 3 only)</li>
+      </ul>
+    </div>
+
+    <div class="part-card" onclick="window.location.href='guide-part1.html'">
+      <div class="part-number">PART 1</div>
+      <div class="part-title">Add Domain ke Cloudflare</div>
+      <div class="part-desc">
+        Setup domain di Cloudflare, ganti nameserver di registrar (Namecheap/GoDaddy/Hostinger), tunggu propagasi.
+      </div>
+      <div class="part-time">⏱️ 10-15 menit (tunggu propagasi)</div>
+      <a href="guide-part1.html" class="part-link" onclick="event.stopPropagation()">
+        MULAI PART 1 →
+      </a>
+    </div>
+
+    <div class="part-card" onclick="window.location.href='guide-part2.html'">
+      <div class="part-number">PART 2</div>
+      <div class="part-title">Setup Email Routing & API Key</div>
+      <div class="part-desc">
+        Enable Email Routing, add destination address, verify email, get Global API Key.
+        <strong>Manual tapi cuma 1x per email destination.</strong>
+      </div>
+      <div class="part-time">⏱️ 5 menit</div>
+      <a href="guide-part2.html" class="part-link" onclick="event.stopPropagation()">
+        MULAI PART 2 →
+      </a>
+    </div>
+
+    <div class="part-card" onclick="window.location.href='guide-part3.html'">
+      <div class="part-number">PART 3</div>
+      <div class="part-title">Pake Tool (AUTOMATED)</div>
+      <div class="part-desc">
+        Bulk setup unlimited domains dalam hitungan detik. Isi form, klik Setup, done!
+        <strong>Automation dimulai di sini.</strong>
+      </div>
+      <div class="part-time">⏱️ 30 detik per batch</div>
+      <a href="guide-part3.html" class="part-link" onclick="event.stopPropagation()">
+        MULAI PART 3 →
+      </a>
+    </div>
+
+    <div style="margin-top: 50px; text-align: center;">
+      <a href="http://43.134.72.40:4444" style="display: inline-block; background: #667eea; color: white; padding: 20px 40px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 18px; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
+        🚀 LANGSUNG KE TOOL
+      </a>
+      <p style="margin-top: 15px; font-size: 14px; color: #999;">
+        (Kalo udah setup manual Part 1 & 2)
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>
