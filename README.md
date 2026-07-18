@@ -129,34 +129,137 @@ abcd-efgh-ijkl-mnop
 
 ---
 
-## Cara Download & Install Tool
+## Cara Download Tool
 
-### Opsi A: Download ZIP (Paling Gampang)
+Ada 2 cara download. Pilih salah satu.
+
+---
+
+### Cara 1: Download ZIP (PALING GAMPANG — ga butuh install apa-apa)
+
+**Step 1: Download**
 
 1. Buka https://github.com/sirenwontdie/IMAP-CONNECTOR
-2. Klik tombol hijau **"Code"** → **"Download ZIP"**
-3. Extract ZIP ke folder mana aja
+2. Klik tombol hijau **"Code"** (kanan atas)
+3. Klik **"Download ZIP"**
+4. File `IMAP-CONNECTOR-main.zip` bakal ke-download ke folder Downloads lu
 
-### Opsi B: Git Clone
+**Step 2: Extract ZIP**
+
+- **Windows:**  
+  Klik kanan file `IMAP-CONNECTOR-main.zip` → **"Extract All..."** → pilih folder → klik **"Extract"**
+  
+- **Mac:**  
+  Klik dobel file `.zip` → otomatis bikin folder `IMAP-CONNECTOR-main/`
+  
+- **Linux:**  
+  ```bash
+  cd ~/Downloads
+  unzip IMAP-CONNECTOR-main.zip
+  cd IMAP-CONNECTOR-main
+  ```
+
+**Step 3: Buka Folder Hasil Extract**
+
+Setelah extract, bakal ada folder `IMAP-CONNECTOR-main/` yang isinya:
+```
+IMAP-CONNECTOR-main/
+├── server.js                    ← file utama tool
+├── package.json                 ← daftar dependencies
+├── README.md
+├── guide-index.html
+├── guide-part1.html
+├── guide-part2.html
+├── guide-part3.html
+├── guide-app-password.html
+├── SETUP-GUIDE.md
+├── TUTORIAL.md
+└── .gitignore
+```
+
+**Step 4: Install Node.js (kalau belum)**
+
+Cek dulu:
+```bash
+node --version
+```
+
+- Kalau muncul `v18.x.x` atau lebih → **skip, udah ready**
+- Kalau muncul `command not found` atau error → install dulu (liat section "Install Node.js" di bawah)
+
+**Step 5: Buka Terminal di Folder Itu**
+
+- **Windows:**  
+  Buka folder `IMAP-CONNECTOR-main/` → klik kanan di area kosong → **"Open in Terminal"**  
+  (atau: buka Command Prompt → `cd` ke folder itu)
+  
+  ```cmd
+  cd C:\Users\NamaLu\Downloads\IMAP-CONNECTOR-main
+  ```
+  
+- **Mac/Linux:**  
+  ```bash
+  cd ~/Downloads/IMAP-CONNECTOR-main
+  ```
+
+**Step 6: Install Dependency**
+
+Tool butuh 1 package tambahan (`imapflow` buat IMAP auto-verify). Jalankan:
+```bash
+npm install imapflow
+```
+
+Tunggu sampai selesai. Bakal muncul folder `node_modules/` + file `package-lock.json`. Itu normal, ga usah diapus.
+
+**Step 7: Jalanin Tool**
+
+```bash
+node server.js
+```
+
+Kalau berhasil, output-nya:
+```
+╔══════════════════════════════════════════╗
+║  IMAP Connector v4.0 (FULL AUTO)        ║
+╚══════════════════════════════════════════╝
+
+🚀  http://0.0.0.0:4444
+```
+
+**Step 8: Buka di Browser**
+
+Buka browser → masuk ke:
+```
+http://localhost:4444
+```
+
+Form setup bakal muncul. Isi credentials lu → klik **"Full Auto Setup"** → done.
+
+> **Catatan:** Terminal/Command Prompt jangan ditutup selama tool dipake. Kalau ditutup = tool mati.  
+> Buat jalanin persistent (ga mati pas terminal ditutup), liat section "Cara Setup di VPS" di bawah.
+
+---
+
+### Cara 2: Git Clone
 
 > **Apa itu git clone?**  
 > Git clone = copy repository dari GitHub ke komputer lu.  
 > **Aman ga?** YA AMAN. Lu cuma download code yang udah public. Ga ada yang di-install ke system, ga ada malware, ga ada akses ke apa-apa. Code-nya bisa lu baca sendiri di `server.js` — semua open source.
 
-**Cara:**
+**Kalau belum punya git, install dulu:**
+- **Windows:** Download https://git-scm.com/download/win → install → buka Git Bash
+- **Mac:** `brew install git` atau download https://git-scm.com/download/mac
+- **Linux:** `sudo apt install git` (Ubuntu/Debian)
+
+**Clone:**
 ```bash
 git clone https://github.com/sirenwontdie/IMAP-CONNECTOR.git
 cd IMAP-CONNECTOR
 ```
 
-Kalau belum punya git:
-- **Windows:** Download https://git-scm.com/download/win → install → buka Git Bash
-- **Mac:** `brew install git` atau download https://git-scm.com/download/mac
-- **Linux:** `sudo apt install git` (Ubuntu/Debian)
+Abis itu lanjut ke **Step 6** di atas (install dependency + jalanin).
 
 ---
-
-## Cara Jalanin Tool
 
 ### Prerequisites: Install Node.js
 
