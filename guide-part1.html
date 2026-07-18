@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMAP Connector - Setup Guide</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .back {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .back:hover { text-decoration: underline; }
+    
+    h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    h2 {
+      font-size: 28px;
+      color: #667eea;
+      margin: 40px 0 20px 0;
+      font-weight: 700;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+    }
+    h3 {
+      font-size: 22px;
+      color: #333;
+      margin: 30px 0 15px 0;
+      font-weight: 700;
+    }
+    h4 {
+      font-size: 18px;
+      color: #555;
+      margin: 20px 0 12px 0;
+      font-weight: 600;
+    }
+    
+    p {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 15px;
+    }
+    
+    .highlight {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+    .info-box {
+      background: #e7f3ff;
+      border-left: 4px solid #2196F3;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+    .success-box {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+    
+    .step {
+      background: #f8f9fa;
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border-left: 5px solid #667eea;
+    }
+    
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+    
+    ul, ol {
+      margin-left: 30px;
+      margin-bottom: 15px;
+    }
+    li {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+    
+    code {
+      background: #f5f5f5;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      color: #c7254e;
+    }
+    
+    .url {
+      background: #667eea;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      margin: 15px 0;
+      display: block;
+      word-break: break-all;
+    }
+    
+    .big-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    strong {
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .section-number {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 20px;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">← Balik ke Tool</a>
+    
+    <h1>📧 IMAP Connector - Setup Guide</h1>
+    <p style="font-size: 18px; color: #666; margin-bottom: 40px;">Setup catch-all email routing untuk unlimited domains</p>
+    
+    <div class="highlight">
+      <p class="big-text">🎯 HASIL AKHIR:</p>
+      <p style="font-size: 17px; margin-top: 10px;">Semua email ke <code>*@domain-lu.com</code> masuk ke <strong>1 inbox</strong> (Gmail/Outlook/apapun)</p>
+    </div>
+    
+    <div class="info-box">
+      <p class="big-text">⏱️ WAKTU:</p>
+      <ul style="margin-top: 10px;">
+        <li><strong>Setup pertama:</strong> 10-15 menit (manual steps)</li>
+        <li><strong>Domain tambahan:</strong> 30 detik (automated)</li>
+      </ul>
+    </div>
+    
+    <div class="success-box">
+      <p class="big-text">💡 KAPAN PAKE TOOL INI:</p>
+      <ul style="margin-top: 10px;">
+        <li>Lu punya <strong>10+ domain</strong> buat farming/airdrop/bulk ops</li>
+        <li>Butuh <strong>email verification</strong> di banyak akun</li>
+        <li>Mau <strong>1 inbox</strong> buat semua domain</li>
+      </ul>
+    </div>
+
+    <h2><span class="section-number">1</span> Add Domain ke Cloudflare</h2>
+    
+    <div class="step">
+      <div class="step-title">STEP 1.1: Login Cloudflare</div>
+      <p>Buka browser, masuk ke:</p>
+      <div class="url">https://dash.cloudflare.com</div>
+      <p>Login atau sign up (gratis)</p>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 1.2: Add Site</div>
+      <p>1. Klik tombol biru <strong>ADD A SITE</strong> (kanan atas)</p>
+      <p>2. Ketik domain lu, contoh:</p>
+      <code style="font-size: 16px; display: block; margin: 10px 0;">alltesting.online</code>
+      <p>3. Klik <strong>ADD SITE</strong></p>
+      <p>4. Pilih plan <strong>FREE</strong> → klik <strong>CONTINUE</strong></p>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 1.3: Copy Nameservers</div>
+      <p>Cloudflare kasih 2 nameserver, contoh:</p>
+      <code style="display: block; margin: 10px 0;">elijah.ns.cloudflare.com</code>
+      <code style="display: block; margin: 10px 0;">pola.ns.cloudflare.com</code>
+      <p style="margin-top: 15px;"><strong>COPY kedua nameserver ini</strong> (lu butuh di step berikutnya)</p>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 1.4: Ganti Nameserver di Registrar</div>
+      <p>Login ke tempat lu beli domain:</p>
+      
+      <h4>🔹 NAMECHEAP:</h4>
+      <ol>
+        <li>Domain List → klik <strong>MANAGE</strong></li>
+        <li>Bagian <strong>NAMESERVERS</strong> → pilih <strong>CUSTOM DNS</strong></li>
+        <li>Paste 2 nameserver Cloudflare</li>
+        <li>Klik <strong>SAVE</strong></li>
+      </ol>
+      
+      <h4>🔹 GODADDY:</h4>
+      <ol>
+        <li>My Products → Domains → klik <strong>DNS</strong></li>
+        <li>Bagian <strong>NAMESERVERS</strong> → klik <strong>CHANGE</strong></li>
+        <li>Pilih <strong>CUSTOM</strong></li>
+        <li>Paste 2 nameserver Cloudflare</li>
+        <li>Klik <strong>SAVE</strong></li>
+      </ol>
+      
+      <h4>🔹 HOSTINGER:</h4>
+      <ol>
+        <li>Domains → klik <strong>MANAGE</strong></li>
+        <li>Bagian <strong>NAMESERVERS</strong> → klik <strong>CHANGE NAMESERVERS</strong></li>
+        <li>Pilih <strong>CUSTOM</strong></li>
+        <li>Paste 2 nameserver Cloudflare</li>
+        <li>Klik <strong>SAVE</strong></li>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 1.5: Tunggu Propagasi</div>
+      <p>1. Balik ke Cloudflare → klik <strong>DONE, CHECK NAMESERVERS</strong></p>
+      <p>2. Tunggu <strong>5-60 menit</strong> (biasanya 10-15 menit)</p>
+      <p>3. Domain status jadi <strong>ACTIVE</strong> (badge hijau)</p>
+      <p style="margin-top: 15px;">Cek propagasi:</p>
+      <div class="url">https://www.whatsmydns.net</div>
+      <p style="font-size: 14px; color: #666;">Pilih type: NS → ketik domain lu → harus muncul nameserver Cloudflare (hijau semua)</p>
+    </div>
+
+    <p style="text-align: center; margin: 40px 0; font-size: 18px; color: #999;">
+      ⬇️ Lanjut ke halaman berikutnya ⬇️
+    </p>
+
+  </div>
+</body>
+</html>
