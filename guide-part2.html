@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 2 - Email Routing Setup</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .back {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .back:hover { text-decoration: underline; }
+    
+    h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    h2 {
+      font-size: 28px;
+      color: #667eea;
+      margin: 40px 0 20px 0;
+      font-weight: 700;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+    }
+    h3 {
+      font-size: 22px;
+      color: #333;
+      margin: 30px 0 15px 0;
+      font-weight: 700;
+    }
+    h4 {
+      font-size: 18px;
+      color: #555;
+      margin: 20px 0 12px 0;
+      font-weight: 600;
+    }
+    
+    p {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 15px;
+    }
+    
+    .highlight {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+    
+    .step {
+      background: #f8f9fa;
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border-left: 5px solid #667eea;
+    }
+    
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+    
+    ul, ol {
+      margin-left: 30px;
+      margin-bottom: 15px;
+    }
+    li {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+    
+    code {
+      background: #f5f5f5;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      color: #c7254e;
+    }
+    
+    .url {
+      background: #667eea;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      margin: 15px 0;
+      display: block;
+      word-break: break-all;
+    }
+    
+    .big-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    strong {
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .section-number {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 20px;
+      margin-right: 15px;
+    }
+    
+    .success-box {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">← Balik ke Tool</a>
+    
+    <h1>📧 Part 2: Email Routing Setup</h1>
+    
+    <div class="highlight">
+      <p class="big-text">⚠️ PENTING:</p>
+      <p style="margin-top: 10px;">Part ini <strong>MANUAL</strong> (Cloudflare requirement). Tapi cuma <strong>1x per email destination</strong>.</p>
+      <p>Setelah verified, semua domain bisa pake email yang sama (unlimited).</p>
+    </div>
+
+    <h2><span class="section-number">2</span> Setup Email Routing</h2>
+    
+    <div class="step">
+      <div class="step-title">STEP 2.1: Masuk ke Email Routing</div>
+      <ol>
+        <li>Dashboard Cloudflare → <strong>KLIK DOMAIN LU</strong></li>
+        <li><strong>SIDEBAR KIRI</strong> → scroll ke bawah</li>
+        <li>Cari menu <strong>EMAIL</strong> (icon amplop ✉️)</li>
+        <li>Klik <strong>EMAIL ROUTING</strong></li>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 2.2: Enable Email Routing</div>
+      <p>Kalo pertama kali:</p>
+      <ol>
+        <li>Ada tombol <strong>GET STARTED</strong> atau <strong>ENABLE EMAIL ROUTING</strong></li>
+        <li>Klik tombol itu</li>
+        <li>Cloudflare auto-create DNS records</li>
+        <li>Klik <strong>ADD RECORDS AND ENABLE</strong></li>
+        <li>Status jadi <strong>ENABLED</strong> ✅</li>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 2.3: Add Destination Address</div>
+      <ol>
+        <li>Klik tab <strong>DESTINATION ADDRESSES</strong> (tab ke-2 dari kiri)</li>
+        <li>Klik tombol <strong>CREATE ADDRESS</strong> (tombol biru, kanan atas)</li>
+        <li>Form muncul</li>
+        <li><strong>EMAIL ADDRESS:</strong> ketik email lu, contoh:<br>
+            <code style="display: block; margin: 10px 0; font-size: 16px;">your-email@gmail.com</code>
+        </li>
+        <li>Klik <strong>SAVE AND SEND VERIFICATION</strong></li>
+      </ol>
+      <p style="margin-top: 15px; background: #e7f3ff; padding: 15px; border-radius: 6px;">
+        💡 Email ini bakal jadi inbox tujuan semua forwarded email dari domain-domain lu
+      </p>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 2.4: Verify Email</div>
+      <ol>
+        <li><strong>BUKA INBOX</strong> email yang lu masukin tadi</li>
+        <li>Cari email dari <strong>CLOUDFLARE</strong><br>
+            <span style="font-size: 14px; color: #666;">Sender: <code>no-reply@notify.cloudflare.com</code></span><br>
+            <span style="font-size: 14px; color: #666;">Subject: <strong>"Verify your email address for Cloudflare Email Routing"</strong></span>
+        </li>
+        <li><strong>KLIK</strong> tombol biru <strong>VERIFY EMAIL ADDRESS</strong></li>
+        <li>Browser redirect ke Cloudflare</li>
+        <li>Status jadi <strong>VERIFIED</strong> ✅</li>
+      </ol>
+      <p style="margin-top: 15px; background: #fff3cd; padding: 15px; border-radius: 6px;">
+        ⚠️ <strong>Ga ada email?</strong> Check <strong>SPAM/JUNK</strong> folder. Atau wait 5-10 menit.
+      </p>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 2.5: Confirm Verified</div>
+      <p>Balik ke Cloudflare Email Routing dashboard</p>
+      <p>Tab <strong>DESTINATION ADDRESSES</strong> → harus muncul:</p>
+      <ul style="margin-top: 10px;">
+        <li>Email: <code>email-lu@gmail.com</code></li>
+        <li>Status: <strong>VERIFIED</strong> (badge hijau) ✅</li>
+      </ul>
+    </div>
+
+    <h2><span class="section-number">3</span> Get API Key</h2>
+    
+    <div class="step">
+      <div class="step-title">STEP 3.1: Go to API Tokens</div>
+      <ol>
+        <li>Klik <strong>PROFILE ICON</strong> (kanan atas)</li>
+        <li>Klik <strong>MY PROFILE</strong></li>
+        <li>Sidebar kiri → klik <strong>API TOKENS</strong></li>
+      </ol>
+      <p style="margin-top: 10px;">Atau langsung:</p>
+      <div class="url">https://dash.cloudflare.com/profile/api-tokens</div>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 3.2: Get Global API Key</div>
+      <ol>
+        <li>Scroll ke bawah</li>
+        <li>Cari section <strong>GLOBAL API KEY</strong></li>
+        <li>Klik <strong>VIEW</strong></li>
+        <li>Masukin password Cloudflare (confirm identity)</li>
+        <li><strong>COPY</strong> API key-nya (starts with <code>cfk_...</code>)</li>
+        <li>Save di Notepad/Notes (lu butuh ini buat tool)</li>
+      </ol>
+    </div>
+
+    <div class="success-box">
+      <p class="big-text">✅ SETUP MANUAL SELESAI!</p>
+      <p style="margin-top: 10px;">Lu udah punya:</p>
+      <ul style="margin-top: 10px;">
+        <li>✅ Domain Active di Cloudflare</li>
+        <li>✅ Destination email verified</li>
+        <li>✅ Global API Key</li>
+      </ul>
+      <p style="margin-top: 15px; font-size: 18px;"><strong>Sekarang lu bisa pake TOOL untuk bulk automation! →</strong></p>
+    </div>
+
+    <p style="text-align: center; margin: 40px 0; font-size: 18px; color: #999;">
+      ⬇️ Lanjut ke Part 3: Pake Tool ⬇️
+    </p>
+
+  </div>
+</body>
+</html>
