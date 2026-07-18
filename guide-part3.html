@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 3 - Pake Tool</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .back {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .back:hover { text-decoration: underline; }
+    
+    h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    h2 {
+      font-size: 28px;
+      color: #667eea;
+      margin: 40px 0 20px 0;
+      font-weight: 700;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+    }
+    
+    p {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 15px;
+    }
+    
+    .highlight {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+    
+    .step {
+      background: #f8f9fa;
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border-left: 5px solid #667eea;
+    }
+    
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+    
+    ul, ol {
+      margin-left: 30px;
+      margin-bottom: 15px;
+    }
+    li {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+    
+    code {
+      background: #f5f5f5;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      color: #c7254e;
+    }
+    
+    .url {
+      background: #667eea;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      margin: 15px 0;
+      display: block;
+      word-break: break-all;
+    }
+    
+    .big-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    strong {
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .section-number {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 20px;
+      margin-right: 15px;
+    }
+    
+    .field {
+      background: white;
+      border: 2px solid #667eea;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 6px;
+    }
+    
+    .field-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 8px;
+    }
+    
+    .field-value {
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      color: #333;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">← Balik ke Tool</a>
+    
+    <h1>🚀 Part 3: Pake Tool (AUTOMATED)</h1>
+    
+    <div class="highlight">
+      <p class="big-text">⚡ AUTOMATION DIMULAI!</p>
+      <p style="margin-top: 10px;">Setup manual udah selesai. Sekarang tool bisa automate <strong>unlimited domains</strong> dalam hitungan detik.</p>
+    </div>
+
+    <h2><span class="section-number">4</span> Bulk Setup dengan Tool</h2>
+    
+    <div class="step">
+      <div class="step-title">STEP 4.1: Buka Tool</div>
+      <p>Buka link ini di browser:</p>
+      <div class="url">http://43.134.72.40:4444</div>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 4.2: Isi Form</div>
+      
+      <p style="font-size: 18px; font-weight: 700; margin: 20px 0 15px 0;">SECTION 1: CLOUDFLARE</p>
+      
+      <div class="field">
+        <div class="field-label">GLOBAL API KEY</div>
+        <div class="field-value">cfk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+        <p style="font-size: 14px; color: #666; margin-top: 8px;">Paste API Key dari Step 3.2</p>
+      </div>
+      
+      <div class="field">
+        <div class="field-label">ACCOUNT EMAIL</div>
+        <div class="field-value">your-email@gmail.com</div>
+        <p style="font-size: 14px; color: #666; margin-top: 8px;">Email login Cloudflare lu</p>
+      </div>
+      
+      <p style="font-size: 18px; font-weight: 700; margin: 30px 0 15px 0;">SECTION 2: DOMAINS</p>
+      
+      <div class="field">
+        <div class="field-label">DOMAIN LIST (satu per line)</div>
+        <div class="field-value">alltesting.online<br>domain2.com<br>domain3.net</div>
+        <p style="font-size: 14px; color: #666; margin-top: 8px;">Domain harus <strong>Active</strong> di Cloudflare</p>
+      </div>
+      
+      <p style="font-size: 18px; font-weight: 700; margin: 30px 0 15px 0;">SECTION 3: EMAIL DESTINATION</p>
+      
+      <div class="field">
+        <div class="field-label">EMAIL ADDRESS</div>
+        <div class="field-value">your-email@gmail.com</div>
+        <p style="font-size: 14px; color: #666; margin-top: 8px;">Email yang udah <strong>VERIFIED</strong> di Step 2.5</p>
+      </div>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 4.3: Klik Setup</div>
+      <ol>
+        <li>Review semua field udah bener</li>
+        <li>Klik tombol <strong>🚀 SETUP ALL DOMAINS</strong></li>
+        <li>Progress muncul real-time</li>
+        <li>Tunggu sampe selesai (10-30 detik)</li>
+      </ol>
+      
+      <p style="margin-top: 15px; background: #e7f3ff; padding: 15px; border-radius: 6px;">
+        <strong>Progress example:</strong><br>
+        <code style="display: block; margin-top: 10px;">--- alltesting.online ---</code><br>
+        <code style="display: block;">✓ Zone found: c17da3d6...</code><br>
+        <code style="display: block;">✓ Email routing enabled</code><br>
+        <code style="display: block;">✓ Catch-all rule updated</code><br>
+        <code style="display: block;">✓ alltesting.online complete!</code>
+      </p>
+    </div>
+
+    <h2><span class="section-number">5</span> Test Email</h2>
+    
+    <div class="step">
+      <div class="step-title">STEP 5.1: Kirim Test Email</div>
+      <ol>
+        <li>Buka Gmail/Outlook/email apapun (email lain, bukan destination)</li>
+        <li>Compose email baru</li>
+        <li><strong>TO:</strong> <code>test@alltesting.online</code></li>
+        <li>Subject: <code>Test</code></li>
+        <li>Body: <code>Testing catch-all</code></li>
+        <li>Kirim</li>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 5.2: Check Inbox</div>
+      <ol>
+        <li>Buka inbox destination: <code>your-email@gmail.com</code></li>
+        <li>Wait 1-2 menit</li>
+        <li>Email dari <code>test@alltesting.online</code> harus masuk ✅</li>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">STEP 5.3: Test Random Addresses</div>
+      <p>Semua email ke domain lu masuk ke inbox yang sama:</p>
+      <ul style="margin-top: 10px;">
+        <li><code>random123@alltesting.online</code> ✅</li>
+        <li><code>user456@alltesting.online</code> ✅</li>
+        <li><code>anything@alltesting.online</code> ✅</li>
+      </ul>
+      <p style="margin-top: 15px; background: #d4edda; padding: 15px; border-radius: 6px;">
+        <strong>✅ DONE!</strong> Catch-all routing works!
+      </p>
+    </div>
+
+    <h2><span class="section-number">6</span> Setup Domain Tambahan</h2>
+    
+    <div class="step">
+      <div class="step-title">Pake Email Destination Yang Sama</div>
+      <p><strong>Super cepet!</strong> Ga perlu verify email lagi.</p>
+      <ol style="margin-top: 15px;">
+        <li>Add domain baru ke Cloudflare (Part 1)</li>
+        <li>Tunggu domain Active</li>
+        <li>Buka tool → isi form dengan domain baru</li>
+        <li>Pake email destination yang <strong>udah verified</strong></li>
+        <li>Klik Setup → done!</li>
+      </ol>
+      <p style="margin-top: 15px; background: #fff3cd; padding: 15px; border-radius: 6px;">
+        💡 <strong>Unlimited domains</strong> bisa pake email destination yang sama
+      </p>
+    </div>
+    
+    <div class="step">
+      <div class="step-title">Pake Email Destination Beda</div>
+      <p>Kalo mau pake email lain:</p>
+      <ol style="margin-top: 15px;">
+        <li>Follow Part 2 lagi (add & verify destination baru)</li>
+        <li>Setelah verified → pake tool dengan email baru</li>
+      </ol>
+    </div>
+
+    <div class="highlight">
+      <p class="big-text">🎉 SELESAI!</p>
+      <p style="margin-top: 15px; font-size: 17px;">Lu udah punya:</p>
+      <ul style="margin-top: 10px;">
+        <li>✅ Catch-all email routing untuk semua domain</li>
+        <li>✅ Semua email masuk ke 1 inbox</li>
+        <li>✅ Siap buat bulk operations (farming/airdrop/verification)</li>
+      </ul>
+      
+      <p style="margin-top: 25px; font-size: 18px; font-weight: 700;">
+        <a href="http://43.134.72.40:4444" style="color: #667eea; text-decoration: none;">
+          → Balik ke Tool untuk setup domain berikutnya
+        </a>
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>
