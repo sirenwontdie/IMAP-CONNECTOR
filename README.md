@@ -1,135 +1,268 @@
 # IMAP Connector
 
-**Zero-click bulk email routing setup for Cloudflare.** Paste credentials → tool handles everything: enable routing, create DNS, add destination, **auto-verify via IMAP**, set catch-all rule. Standalone — no agent needed.
+**Tool buat setup email routing Cloudflare secara bulk + otomatis.** 
+Lu tinggal paste API key + IMAP creds + list domain → tool kerjain semua: enable routing, bikin DNS, verifikasi email otomatis via IMAP, set catch-all rule. Ga perlu klik link verifikasi manual.
 
-## What It Does
+---
+
+## Apa yang Tool Ini Lakukan?
 
 ```
-Domain (Active in Cloudflare)
-    ↓
-Tool enables email routing + creates MX/TXT/SPF DNS records
-    ↓
-Tool adds destination address via Cloudflare API
-    ↓
-Tool connects to your IMAP inbox → finds Cloudflare verification email
-    ↓
-Tool clicks verification link automatically (zero manual clicks)
-    ↓
-Tool sets catch-all rule → all emails to *@yourdomain.com → your inbox
-    ↓
-Done: any-email@yourdomain.com lands in your inbox
+Lu punya domain (udah Active di Cloudflare)
+        ↓
+Tool: enable email routing + bikin DNS records (MX/TXT/SPF)
+        ↓
+Tool: tambah destination email via Cloudflare API
+        ↓
+Tool: connect ke IMAP inbox lu → cari email verifikasi dari Cloudflare
+        ↓
+Tool: klik link verifikasi OTOMATIS (ga perlu buka inbox manual)
+        ↓
+Tool: set catch-all rule → semua email ke *@domain.com → 1 inbox lu
+        ↓
+SELESAI: apa-apa@domain.com, admin@domain.com, dll → masuk ke inbox lu
 ```
 
-## Features
+Jadi setelah setup: lu bisa bikin alamat email apa aja dengan domain lu (`user1@domain.com`, `user2@domain.com`, dst) dan semuanya masuk ke 1 inbox Gmail/Outlook lu.
 
-- ✅ Bulk setup unlimited domains in one run
-- ✅ Auto-enable Cloudflare email routing
-- ✅ Auto-create DNS records (MX, TXT, SPF)
-- ✅ Auto-add destination address via API
-- ✅ **IMAP auto-verify** — finds + clicks Cloudflare verification link (no manual inbox checking)
-- ✅ Set catch-all rule → forward all emails to one inbox
-- ✅ Supports Gmail, Outlook, Yahoo, ProtonBridge, custom IMAP
-- ✅ Web UI — no CLI commands needed after setup
-- ✅ Streaming progress (see each step in real-time)
-- ✅ Input validation + proper error handling
-- ✅ Standalone — runs as a server, no agent dependency
+---
 
-## Quick Start
+## Apa Saja yang Butuh Dipersiapkan?
 
-### Prerequisites
+| Yang Dibutuhin | Kenapa | Cara Dapet |
+|---|---|---|
+| **Domain** | Domain yang mau dipake buat email | Beli di Namecheap/GoDaddy/Hostinger |
+| **Cloudflare account** | Buat manage DNS + email routing | Daftar gratis: https://dash.cloudflare.com/sign-up |
+| **Domain Active di Cloudflare** | Domain harus udah pointing ke CF | Add domain ke CF → ganti nameserver di registrar → tunggu Active |
+| **Cloudflare API Key** | Buat tool bisa kontrol CF account lu | CF dashboard → Profile → API Tokens → Global API Key → View |
+| **Email inbox** | Buat nerima semua email yang masuk | Gmail / Outlook / Yahoo / dll |
+| **IMAP access** | Buat tool bisa auto-verify email | Gmail: App Password. Outlook: password biasa |
+| **Node.js** | Runtime buat jalanin tool | Install v18+ (liat bawah) |
 
-| Requirement | Why |
-|---|---|
-| **Node.js v18+** | JavaScript runtime |
-| **A domain** | Added to Cloudflare, nameservers pointing to CF, status "Active" |
-| **Cloudflare account** | Global API Key + account email |
-| **Email inbox** | Gmail/Outlook/Yahoo/etc with IMAP access (for auto-verify) |
+---
 
-### Install & Run
+## Cara Setup Domain di Cloudflare (Manual, 1x per domain)
 
-```bash
-# 1. Extract
-unzip imap-connector-v4.zip
-cd imap-connector
+> **Ini ga bisa di-otomatisasi.** Ganti nameserver harus manual di registrar tempat lu beli domain.
 
-# 2. Install dependency (imapflow for IMAP auto-verify)
-npm install imapflow
+### Step 1: Login Cloudflare
+- Buka https://dash.cloudflare.com
+- Login atau daftar (gratis)
 
-# 3. Run
-node server.js
+### Step 2: Add Domain
+- Klik tombol **"Add a Site"** (kanan atas, tombol biru)
+- Masukkan domain lu (contoh: `mydomain.com`)
+- Klik **"Add site"**
+- Pilih plan **"Free"** (gratis) → Continue
+
+### Step 3: Copy Nameserver dari Cloudflare
+Cloudflare bakal kasih 2 nameserver, contoh:
 ```
+elijah.ns.cloudflare.com
+pola.ns.cloudflare.com
+```
+**Copy kedua nameserver ini.**
 
-Server starts on `http://localhost:4444`. Open in browser.
+### Step 4: Ganti Nameserver di Registrar
+Login ke tempat lu beli domain:
 
-### Use the Tool
+**Namecheap:**
+1. Domain List → Manage (domain lu)
+2. Nameservers → **Custom DNS**
+3. Paste 2 nameserver Cloudflare
+4. Save (centang)
 
-1. Open `http://localhost:4444` (or `http://YOUR_IP:4444` if on VPS)
-2. Fill the form:
-   - **Cloudflare API Key** — `dash.cloudflare.com → Profile → API Tokens → Global API Key → View`
-   - **Account Email** — your Cloudflare login email
-   - **Domains** — one per line (must be Active in CF)
-   - **Destination Email** — the inbox where all emails will forward to
-   - **IMAP Provider** — Gmail / Outlook / Yahoo / ProtonBridge / Custom
-   - **IMAP Password** — App Password (Gmail/Yahoo) or regular password (Outlook)
-3. Click **🚀 Full Auto Setup**
-4. Watch progress — tool does everything
-5. Done — test by sending email to `test@yourdomain.com`
+**GoDaddy:**
+1. My Products → Domains → DNS
+2. Nameservers → Change → **Custom**
+3. Paste 2 nameserver Cloudflare
+4. Save
 
-## Gmail App Password
+**Hostinger:**
+1. Domains → Manage → Nameservers
+2. Change Nameservers → **Custom**
+3. Paste 2 nameserver Cloudflare
+4. Save
 
-Google hides the App Password page behind passkeys now. Direct URL:
+### Step 5: Tunggu Propagasi
+- Balik ke Cloudflare → klik **"Done, check nameservers"**
+- Tunggu 5-60 menit (biasanya 10-15 menit)
+- Status domain berubah jadi **"Active"** (badge hijau)
+- Cek global propagation: https://www.whatsmydns.net (type: NS)
+
+> **Setelah status Active → domain siap dipake sama tool.**  
+> Buka tool → isi form → klik setup → done.
+
+---
+
+## Cara Dapet Gmail App Password
+
+> **Google sekarang nyuruh pake Passkey.** Jangan ikutin. App Password masih ada, tapi URL-nya disembunyiin.
+
+### Step 1: Aktifin 2-Step Verification (2FA)
+Kalau belum on:
+- Buka https://myaccount.google.com/signinoptions/twosv
+- Klik **"Turn on"** → ikutin setup (OTP via SMS/Authenticator app)
+
+### Step 2: Buka Halaman App Password (LANGSUNG)
+**Jangan cari dari menu Google** (bakal dilarikan ke Passkey). Buka URL ini langsung:
 
 ```
 https://myaccount.google.com/apppasswords
 ```
 
-**Prerequisite:** 2-Step Verification must be ON first.
+### Step 3: Bikin App Password Baru
+- Di input **"App name"** → isi apa aja, contoh: `imap-connector`
+- Klik **"Create"**
+- Google generate password 16 karakter
 
-Steps:
-1. Enable 2FA: `https://myaccount.google.com/signinoptions/twosv`
-2. Open: `https://myaccount.google.com/apppasswords`
-3. App name: `imap-connector` → Create
-4. Copy 16-char code (`abcd-efgh-ijkl-mnop`)
-5. Paste to tool's IMAP Password field
+### Step 4: Copy Password
+Muncul popup kuning yang nampilin:
+```
+abcd-efgh-ijkl-mnop
+```
+**Copy password ini** (format 4-4-4-4 dengan dash).
 
-If Google redirects to passkey screen: remove passkey temporarily (Security → How you sign in → Passkeys → Remove), create App Password, then re-enable passkey.
+> Kalau Google redirect ke halaman Passkey:  
+> Hapus passkey dulu (Security → How you sign in → Passkeys → Remove)  
+> Balik ke URL App Password → bikin password → enable passkey lagi.
 
-See in-app guide at `http://localhost:4444/app-password` for full walkthrough.
+---
 
-## Setup Guide (Adding Domain to Cloudflare)
+## Cara Download & Install Tool
 
-If your domain isn't in Cloudflare yet:
+### Opsi A: Download ZIP (Paling Gampang)
 
-1. Sign up: `https://dash.cloudflare.com/sign-up`
-2. Add Site → enter domain → choose **Free** plan
-3. Cloudflare gives 2 nameservers
-4. Go to your domain registrar (Namecheap/GoDaddy/Hostinger/etc)
-5. Change nameservers to Cloudflare's
-6. Wait 5-60 min for propagation (check: `https://www.whatsmydns.net`)
-7. When status shows "Active" → ready to use tool
+1. Buka https://github.com/sirenwontdie/IMAP-CONNECTOR
+2. Klik tombol hijau **"Code"** → **"Download ZIP"**
+3. Extract ZIP ke folder mana aja
 
-See in-app guide at `http://localhost:4444/guide` for screenshots + details.
+### Opsi B: Git Clone
 
-## Running on Different Environments
+> **Apa itu git clone?**  
+> Git clone = copy repository dari GitHub ke komputer lu.  
+> **Aman ga?** YA AMAN. Lu cuma download code yang udah public. Ga ada yang di-install ke system, ga ada malware, ga ada akses ke apa-apa. Code-nya bisa lu baca sendiri di `server.js` — semua open source.
 
-### Windows (WSL)
+**Cara:**
+```bash
+git clone https://github.com/sirenwontdie/IMAP-CONNECTOR.git
+cd IMAP-CONNECTOR
+```
 
+Kalau belum punya git:
+- **Windows:** Download https://git-scm.com/download/win → install → buka Git Bash
+- **Mac:** `brew install git` atau download https://git-scm.com/download/mac
+- **Linux:** `sudo apt install git` (Ubuntu/Debian)
+
+---
+
+## Cara Jalanin Tool
+
+### Prerequisites: Install Node.js
+
+Tool ini butuh **Node.js v18 atau lebih baru**.
+
+**Cek apakah Node.js udah install:**
+```bash
+node --version
+```
+Kalau muncul `v18.x.x` atau lebih tinggi → udah ready.  
+Kalau belum, install dulu:
+
+**Windows:**
+1. Download https://nodejs.org → pilih "LTS"
+2. Install (next-next-next)
+3. Buka Command Prompt / PowerShell
+4. Cek: `node --version`
+
+**Mac:**
+```bash
+brew install node
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+### Step 1: Masuk ke Folder Tool
+```bash
+cd IMAP-CONNECTOR
+```
+
+### Step 2: Install Dependency
+Tool cuma butuh 1 package tambahan: `imapflow` (buat IMAP auto-verify).
+
+```bash
+npm install imapflow
+```
+
+Ini bakal bikin folder `node_modules/` + `package-lock.json`. Normal, ga perlu diutak-atik.
+
+### Step 3: Jalanin Server
+```bash
+node server.js
+```
+
+Output:
+```
+╔══════════════════════════════════════════╗
+║  IMAP Connector v4.0 (FULL AUTO)        ║
+╚══════════════════════════════════════════╝
+
+🚀  http://0.0.0.0:4444
+📖  http://0.0.0.0:4444/guide
+❤️  http://0.0.0.0:4444/health
+```
+
+### Step 4: Buka di Browser
+Buka:
+```
+http://localhost:4444
+```
+
+Kalau lu jalanin di VPS (server), buka `http://IP_VPS:4444` dari browser lu.
+
+### Step 5: Isi Form + Klik Setup
+
+1. **Cloudflare API Key** — paste Global API Key dari CF
+2. **Account Email** — email login Cloudflare lu
+3. **Domains** — 1 domain per baris
+4. **Destination Email** — email inbox lu (yang mau nerima semua email)
+5. **IMAP Provider** — pilih (Gmail/Outlook/Yahoo/dll)
+6. **IMAP Username** — email lu (biasanya sama dengan destination)
+7. **IMAP Password** — App Password (Gmail/Yahoo) atau password biasa (Outlook)
+
+Klik **"🚀 Full Auto Setup"** → tunggu → done.
+
+---
+
+## Cara Setup di Berbagai Environment
+
+### Windows (WSL - Windows Subsystem for Linux)
+
+**Install WSL:**
 ```powershell
-# Open WSL (Ubuntu)
-wsl
+# Buka PowerShell as Administrator
+wsl --install
+```
+Restart PC. Buka "Ubuntu" dari Start Menu.
 
-# Install Node.js (if not installed)
+**Di WSL:**
+```bash
+# Install Node.js
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
-# Extract + run
-unzip imap-connector-v4.zip
-cd imap-connector
+# Clone + run
+git clone https://github.com/sirenwontdie/IMAP-CONNECTOR.git
+cd IMAP-CONNECTOR
 npm install imapflow
 node server.js
 ```
 
-Open `http://localhost:4444` in Windows browser.
+Buka `http://localhost:4444` di browser Windows lu.
 
 ### Linux (VPS / Ubuntu)
 
@@ -138,20 +271,25 @@ Open `http://localhost:4444` in Windows browser.
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
-# Extract + run
-unzip imap-connector-v4.zip
-cd imap-connector
+# Clone + run
+git clone https://github.com/sirenwontdie/IMAP-CONNECTOR.git
+cd IMAP-CONNECTOR
 npm install imapflow
 node server.js
 ```
 
-For persistent deployment (survives reboot):
+**Buat persistent (survive reboot):**
 ```bash
-npm install -g pm2
+sudo npm install -g pm2
 pm2 start server.js --name imap-connector
 pm2 save
-pm2 startup  # follow instructions
+pm2 startup    # ikutin instruksi yang muncul
 ```
+
+Sekarang tool auto-start pas VPS reboot. Cek status: `pm2 status`.  
+Lihat log: `pm2 logs imap-connector`.  
+Stop: `pm2 stop imap-connector`.  
+Restart: `pm2 restart imap-connector`.
 
 ### macOS
 
@@ -159,15 +297,16 @@ pm2 startup  # follow instructions
 # Install Node.js
 brew install node
 
-# Extract + run
-unzip imap-connector-v4.zip
-cd imap-connector
+# Clone + run
+git clone https://github.com/sirenwontdie/IMAP-CONNECTOR.git
+cd IMAP-CONNECTOR
 npm install imapflow
 node server.js
 ```
 
-### Docker (optional)
+### Docker (Opsional)
 
+Buat file `Dockerfile` di folder tool:
 ```dockerfile
 FROM node:22-slim
 WORKDIR /app
@@ -178,137 +317,213 @@ EXPOSE 4444
 CMD ["node", "server.js"]
 ```
 
+Build + run:
 ```bash
 docker build -t imap-connector .
 docker run -p 4444:4444 imap-connector
 ```
 
-## Port Already in Use?
+---
 
-If port 4444 is taken, change it:
+## Port Udah Kepake?
 
+Default port: **4444**. Kalau udah dipake aplikasi lain, tool bakal error `EADDRINUSE`.
+
+### Cek Apa yang Make Port 4444
+
+**Linux/Mac:**
 ```bash
-# Option 1: environment variable
-PORT=5555 node server.js
-
-# Option 2: edit server.js (line 14)
-# const PORT = process.env.PORT || 4444;
-# change 4444 to whatever port you want
+lsof -i :4444
 ```
 
-Check what's using a port:
-```bash
-# Linux/Mac
-lsof -i :4444
-
-# Windows (cmd)
+**Windows (Command Prompt):**
+```cmd
 netstat -ano | findstr :4444
 ```
 
-Kill process on that port:
-```bash
-# Linux/Mac
-kill -9 $(lsof -t -i :4444)
+### Ganti Port Tool
 
-# Windows
-taskkill /PID <PID> /F
+**Opsi 1: Environment Variable (paling gampang)**
+```bash
+PORT=5555 node server.js
 ```
 
-## Endpoints
+**Opsi 2: Edit `server.js`**
 
-| Method | Path | Description |
-|---|---|---|
-| `GET` | `/` | Setup UI (homepage) |
-| `GET` | `/health` | Health check JSON |
-| `GET` | `/guide` | Full setup guide (add domain to CF) |
-| `GET` | `/app-password` | Gmail App Password guide |
-| `GET` | `/tutorial` | Tutorial (markdown) |
-| `GET` | `/guide-part1.html` | Guide Part 1 |
-| `GET` | `/guide-part2.html` | Guide Part 2 |
-| `GET` | `/guide-part3.html` | Guide Part 3 |
-| `POST` | `/api/test` | Test CF + IMAP credentials |
-| `POST` | `/api/setup` | Full auto setup (streaming) |
+Buka `server.js`, cari baris ini (sekitar line 23):
+```js
+const PORT = process.env.PORT || 4444;
+```
+Ganti `4444` jadi port yang lu mau, contoh `5555`:
+```js
+const PORT = process.env.PORT || 5555;
+```
+Save → jalanin lagi: `node server.js`.
 
-## IMAP Provider Config
+### Kill Process yang Make Port
 
-| Provider | Host | Port | TLS | Notes |
+**Linux/Mac:**
+```bash
+kill -9 $(lsof -t -i :4444)
+```
+
+**Windows:**
+```cmd
+taskkill /PID <PID> /F
+```
+(`<PID>` = angka yang muncul dari `netstat` tadi)
+
+---
+
+## Endpoint Tool
+
+Setelah server jalan, ini yang bisa diakses:
+
+| URL | Apa Isinya |
+|---|---|
+| `http://localhost:4444/` | Homepage / Setup form |
+| `http://localhost:4444/guide` | Guide setup domain di Cloudflare |
+| `http://localhost:4444/app-password` | Guide bikin Gmail App Password |
+| `http://localhost:4444/tutorial` | Tutorial (markdown) |
+| `http://localhost:4444/health` | Health check (JSON) |
+| `http://localhost:4444/guide-part1.html` | Guide Part 1 |
+| `http://localhost:4444/guide-part2.html` | Guide Part 2 |
+| `http://localhost:4444/guide-part3.html` | Guide Part 3 |
+
+API endpoints:
+- `POST /api/test` — test credentials CF + IMAP sebelum setup
+- `POST /api/setup` — full auto setup (streaming progress)
+
+---
+
+## IMAP Provider yang Didukung
+
+| Provider | Host | Port | TLS | Password |
 |---|---|---|---|---|
-| Gmail | `imap.gmail.com` | 993 | Yes | Needs App Password |
-| Outlook | `outlook.office365.com` | 993 | Yes | Regular password |
-| Yahoo | `imap.mail.yahoo.com` | 993 | Yes | Needs App Password |
-| ProtonMail | `127.0.0.1` | 1143 | No | Requires Proton Bridge |
-| Custom | any | 993/143 | varies | Manual host + port |
+| **Gmail** | `imap.gmail.com` | 993 | Yes | App Password (16 chars) |
+| **Outlook** | `outlook.office365.com` | 993 | Yes | Password biasa |
+| **Yahoo** | `imap.mail.yahoo.com` | 993 | Yes | App Password |
+| **ProtonMail** | `127.0.0.1` | 1143 | No | Bridge password |
+| **Custom** | bebas | 993/143 | varies | sesuai provider |
 
-## How Auto-Verify Works
+---
 
-Cloudflare requires email verification when you add a destination address. They send an email with a verification link. Normally you'd check inbox + click manually.
+## Cara Auto-Verify Kerja
 
-This tool automates that:
+Cloudflare butuh verifikasi email pas lu add destination address. Mereka kirim email berisi link verifikasi. Biasanya lu harus buka inbox + klik link manual.
 
-1. Tool adds destination via Cloudflare API
-2. Cloudflare sends verification email to that address
-3. Tool connects to your IMAP inbox
-4. Tool polls inbox (up to 2 minutes) searching for Cloudflare email
-5. Tool extracts verification link from email source
-6. Tool visits the link (follows redirects) → destination becomes "Verified"
-7. Tool proceeds to set catch-all rule
+**Tool ini otomatisin itu:**
 
-**IMAP credentials are only used for this one-time verification.** After that, Cloudflare handles all forwarding. You can revoke the App Password after setup.
+1. Tool tambah destination via Cloudflare API
+2. Cloudflare kirim email verifikasi ke alamat itu
+3. Tool connect ke IMAP inbox lu
+4. Tool polling inbox (sampai 2 menit) cari email dari Cloudflare
+5. Tool extract link verifikasi dari isi email
+6. Tool visit link itu (ikutin redirect) → destination jadi "Verified"
+7. Tool lanjut set catch-all rule
+
+**IMAP credentials cuma dipake 1x buat verifikasi.** Setelah itu, Cloudflare handle semua forwarding. Lu bisa revoke App Password abis setup selesai kalo mau.
+
+---
 
 ## Troubleshooting
 
 ### "Domain not found in Cloudflare"
-- Domain isn't added to CF, or nameservers haven't propagated
-- Check: `https://www.whatsmydns.net` (NS records)
-- Wait for status "Active" in CF dashboard
+- Domain belum di-add ke CF, atau nameserver belum propagasi
+- Cek: https://www.whatsmydns.net (NS records)
+- Tunggu status "Active" di CF dashboard
 
 ### "CF credential check failed"
-- Wrong API key or email
+- API key atau email salah
 - API key: `dash.cloudflare.com → Profile → API Tokens → Global API Key`
-- Must be Global API Key (not API Token)
+- Harus **Global API Key** (bukan API Token)
 
 ### IMAP connection failed
-- Gmail: needs App Password, not regular password
-- Check 2FA is ON before creating App Password
-- Yahoo: same, needs App Password
-- Outlook: regular password works
+- **Gmail:** butuh App Password, bukan password biasa. Lihat guide App Password di atas
+- 2FA harus ON sebelum bisa bikin App Password
+- **Yahoo:** sama, butuh App Password
+- **Outlook:** password biasa works
 
 ### "Verification email not found"
-- Cloudflare email might be in spam folder
-- Destination email must match IMAP inbox
-- Tool polls for 2 minutes — if email delayed, re-run after it arrives
+- Email Cloudflare mungkin masuk folder Spam
+- Destination email harus sama dengan IMAP inbox
+- Tool polling 2 menit — kalau email delayed, re-run setelah email datang
 
-### Email forwarding not working after setup
-- DNS propagation takes 5-30 min after MX records created
-- Check catch-all rule is enabled in CF dashboard
-- Verify destination email status is "Verified" in CF
+### Email forwarding ga jalan setelah setup
+- DNS propagation butuh waktu 5-30 menit setelah MX records dibuat
+- Cek catch-all rule enabled di CF dashboard
+- Pastikan destination email status "Verified" di CF
 
-### Port 4444 already in use
-- See "Port Already in Use?" section above
-- Or: `PORT=5555 node server.js`
+### Port 4444 udah kepake
+- Lihat section "Port Udah Kepake?" di atas
+- Atau: `PORT=5555 node server.js`
+
+---
 
 ## Security Notes
 
-- IMAP credentials are used in-memory only, not stored
-- After setup, App Password can be revoked
-- Cloudflare API key is used for the session, not persisted
-- Tool doesn't store any credentials to disk
-- All communication over HTTPS to Cloudflare API
-- IMAP connection uses TLS (port 993)
+- IMAP credentials dipake in-memory aja, **ga disimpan** ke disk
+- Setelah setup selesai, App Password bisa lu revoke (Google Account → App Passwords → Delete)
+- Cloudflare API key dipake buat session itu aja, ga di-persist
+- Tool ga nyimpen credentials apa-apa ke file
+- Semua komunikasi ke Cloudflare API via HTTPS
+- IMAP connection pake TLS (port 993)
+- Ga ada telemetry, ga ada tracking, ga ada data ke server luar
+
+---
+
+## FAQ
+
+### Q: Git clone aman ga?
+**A:** AMAN. Git clone = download code dari GitHub. Code-nya public, lu bisa baca semua di `server.js`. Ga ada yang di-install ke system, ga ada malware, ga ada backdoor. Setelah clone, lu bisa inspect code sendiri sebelum jalanin.
+
+### Q: Tool ini butuh internet?
+**A:** Ya. Tool panggil Cloudflare API (butuh internet) + connect ke IMAP server lu (butuh internet). Tapi tool sendiri jalan di local/VPS lu, bukan di cloud.
+
+### Q: Bisa pake domain gratisan (Freenom, dll)?
+**A:** Bisa, asal domainnya udah di-add ke Cloudflare + status Active. Tool ga peduli dari mana domain asalnya.
+
+### Q: Berapa domain maksimal yang bisa setup sekali jalan?
+**A:** Ga ada limit dari tool. Limit dari Cloudflare API: ~1200 request per 5 menit. 1 domain = ~5 request, jadi ~240 domain per 5 menit. Lebih dari cukup.
+
+### Q: Setelah setup, IMAP password masih dibutuhkan?
+**A:** TIDAK. IMAP password cuma dipake 1x buat verifikasi Cloudflare. Setelah verified, Cloudflare handle forwarding. App Password bisa lu revoke.
+
+### Q: Bisa pake email yang sama buat multiple domain?
+**A:** BISA. 1 destination email bisa terima dari unlimited domain. Setup domain A + domain B, keduanya forward ke email yang sama.
+
+### Q: Apa tool nyimpan credentials saya?
+**A:** TIDAK. Semua credentials (API key, IMAP password) dipake in-memory pas runtime. Pas tool di-restart, hilang. Ga ada yang di-write ke disk. Lu bisa cek sendiri code-nya.
+
+### Q: Cloudflare API Key vs API Token, apa bedanya?
+**A:** 
+- **Global API Key** = akses penuh ke semua domain di akun lu. Yang tool butuhkan.
+- **API Token** = scoped, akses terbatas. Lebih aman tapi ribet setup permission-nya.
+- Tool ini pake Global API Key karena lebih simpel buat user awam.
+
+### Q: Kalau VPS reboot, tool masih jalan?
+**A:** Kalau pake PM2 (liat guide VPS di atas) → YA, auto-start. Kalau jalanin `node server.js` biasa → TIDAK, harus dijalankan manual lagi.
+
+---
 
 ## Tech Stack
 
 - **Node.js** — runtime
-- **http** — built-in HTTP server (no Express needed)
-- **https** — Cloudflare API + verification link visit
-- **imapflow** — IMAP client for auto-verify
+- **http** — built-in HTTP server (no Express)
+- **https** — Cloudflare API + verification link
+- **imapflow** — IMAP client buat auto-verify
 
-No database. No external services. No telemetry. Pure local tool.
-
-## License
-
-MIT — do whatever.
+Ga ada database. Ga ada external services. Ga ada telemetry. Pure local tool.
 
 ---
 
-**Issues?** Check troubleshooting above. Tool runs standalone — no agent needed after deploy.
+## License
+
+MIT — pake buat apa aja.
+
+---
+
+## Author
+
+Built by Remm.  
+Repo: https://github.com/sirenwontdie/IMAP-CONNECTOR
